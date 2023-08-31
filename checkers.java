@@ -10,7 +10,6 @@ public
 
     long board = 0L;
     int board1 = 00011010;
-    //int board1 = 00011010;
 
     private static long getBts(long value, long startPosition, long count) {
         return (value >> startPosition) & ~(~0L << count);
@@ -31,8 +30,6 @@ public
     private static long copyBts(long value, long startPosition, long count, long bits) {
         return resetBts(value, startPosition, count) | (bits << startPosition);
     }
-
-
 
     private static long getPawn(long pawns, long index) {
         return getBts(pawns, 9 * index, 9);
@@ -61,8 +58,6 @@ public
     private static boolean getPawnIsCaptured(long pawn) {
         return getBt(pawn, 8) == 1;
     }
-
-
 
     private static long setPawn(long pawns, long index, long pawn) {
         return copyBts(pawns, 9L * index, 9, pawn);
@@ -100,8 +95,6 @@ public
         pawn = setPawnIsWhite(pawn, isWhite);
         return pawn;
     }
-
-
 
     private static long createBlackPawnsRA() {
         long pawns = 0;
@@ -218,16 +211,13 @@ public
     private static long captureEnemyPawn(long startX, long startY, long endX, long endY, long enemyPawns1, long enemyPawns2) {
         long dx = endX > startX ? 1 : -1;
         long dy = endY > startY ? 1 : -1;
-
         long pawn;
-
         for (long posX = startX, posY = startY; posX != endX && posY != endY; posX += dx, posY += dy) {
             pawn = findPawnIndex(posX, posY, enemyPawns1, enemyPawns2);
             if (pawn != -1) {
                 return pawn;
             }
         }
-
         return -1;
     }
 
@@ -237,7 +227,6 @@ public
 
     private static void printField(PrintWriter out, long positionX, long positionY, long pawns1, long pawns2, long pawns3, long pawns4) {
         long pawn = findPawn(positionX, positionY, pawns1, pawns2, pawns3, pawns4);
-
         if (pawn == -1 || getPawnIsCaptured(pawn)) {
             if (isFieldWhite(positionX, positionY)) {
                 out.print('\u2B1B');
@@ -246,12 +235,10 @@ public
             out.print('\u2B1C');
             return;
         }
-
         if (getPawnIsWhite(pawn)) {
             out.print('\u265F');
             return;
         }
-
         if (getPawnIsQueen(pawn)) {
             if (getPawnIsWhite(pawn)) {
                 out.print('\u2655');
@@ -285,7 +272,6 @@ public
         return 7 - (string.charAt(1) - '1');
     }
 
-
     public static void main(String[] args) {
         long player1PawnsCA = createWhitePawnsRA();
         long player2PawnsCA = createBlackPawnsRA();
@@ -298,9 +284,8 @@ public
         while (true) {
             printBoard(out, player1PawnsCA, player2PawnsCA, player1PawnsCB, player2PawnsCB);
 
-            {
+            { // bigger chunk of game logic
                 out.println("Ruch gracza1 - aby ruszyć pionem, najpierw wybierz jego pozycję");
-
                 long startX;
                 long startY;
                 long playerPawnIndex;
@@ -320,7 +305,6 @@ public
                     break;
                 }
                 out.println("Wprowadź miejsce docelowe piona");
-
                 long endX;
                 long endY;
                 long enemyPawnIndex;
@@ -359,7 +343,6 @@ public
                 }
 
                 playerPawn = setPawnPosition(playerPawn, endX, endY);
-
                 if (endY == 7) {
                     playerPawn = setPawnIsQueen(playerPawn);
                 }
@@ -391,7 +374,6 @@ public
 
                         while (true) {
                             String end = sc.next();
-
                             if (end.equals("zk")) {
                                 done = true;
                                 break;
@@ -399,19 +381,15 @@ public
                             endX = parsePositionX(end);
                             endY = parsePositionY(end);
                             long collideIndex = findPawnIndex(endX, endY, player2PawnsCA, player2PawnsCB);
-
                             if (collideIndex != -1) {
                                 out.println("Wpisano nieprawidłową pozycję, wprowadź ruch jeszcze raz");
                                 continue;
                             }
-
                             enemyPawnIndex = captureEnemyPawn(startX, startY, endX, endY, player1PawnsCA, player1PawnsCB);
-
                             if (enemyPawnIndex == -1) {
                                 out.println("Zbij pion przeciwnika lub zakończ ruch wprowadzając \"zk\"");
                                 continue;
                             }
-
                             if (getPawnIsQueen(playerPawn)) {
                                 if (Math.abs(endX - startX) != Math.abs(endY - startY)) {
                                     out.println("Wpisano nieprawidłową pozycję, wprowadź ruch jeszcze raz");
@@ -425,32 +403,25 @@ public
                             }
                             break;
                         }
-
                         if (done) {
                             break;
                         }
-
                         playerPawn = setPawnPosition(playerPawn, endX, endY);
-
                         if (endY == 7) {
                             playerPawn = setPawnIsQueen(playerPawn);
                         }
-
                         if (playerPawnIndex < 6) {
                             player1PawnsCA = setPawn(player1PawnsCA, playerPawnIndex, playerPawn);
                         } else {
                             player1PawnsCB = setPawn(player1PawnsCB, playerPawnIndex - 6, playerPawn);
                         }
-
                         enemyPawn = getPawn(player2PawnsCA, player2PawnsCB, enemyPawnIndex);
                         enemyPawn = setPawnIsCaptured(enemyPawn);
-
                         if (enemyPawnIndex < 6) {
                             player2PawnsCA = setPawn(player2PawnsCA, enemyPawnIndex, enemyPawn);
                         } else {
                             player2PawnsCB = setPawn(player2PawnsCB, enemyPawnIndex - 6, enemyPawn);
                         }
-
                         startX = endX;
                         startY = endY;
                     }
@@ -627,7 +598,6 @@ public
                 break;
             }
         }
-
         if (allPawnsCaptured(player2PawnsCA, player2PawnsCB)) {
             out.println("Wygrywa gracz1");
         } else {
