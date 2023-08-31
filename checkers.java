@@ -341,18 +341,16 @@ public
                     }
                     break;
                 }
-
                 playerPawn = setPawnPosition(playerPawn, endX, endY);
+                
                 if (endY == 7) {
                     playerPawn = setPawnIsQueen(playerPawn);
                 }
-
                 if (playerPawnIndex < 6) {
                     player1PawnsCA = setPawn(player1PawnsCA, playerPawnIndex, playerPawn);
                 } else {
                     player1PawnsCB = setPawn(player1PawnsCB, playerPawnIndex - 6, playerPawn);
                 }
-
                 if (enemyPawnIndex != -1) {
                     long enemyPawn = getPawn(player2PawnsCA, player2PawnsCA, enemyPawnIndex);
                     enemyPawn = setPawnIsCaptured(enemyPawn);
@@ -362,18 +360,17 @@ public
                     } else {
                         player2PawnsCB = setPawn(player2PawnsCB, enemyPawnIndex - 6, enemyPawn);
                     }
-
                     startX = endX;
                     startY = endY;
 
                     while (true) {
                         printBoard(out, player1PawnsCA, player1PawnsCB, player2PawnsCA, player2PawnsCB);
                         out.println("Wybierz następne bicie lub wprowadź \"zk\", aby zakończyć");
-
                         boolean done = false;
 
                         while (true) {
                             String end = sc.next();
+                            
                             if (end.equals("zk")) {
                                 done = true;
                                 break;
@@ -381,11 +378,13 @@ public
                             endX = parsePositionX(end);
                             endY = parsePositionY(end);
                             long collideIndex = findPawnIndex(endX, endY, player2PawnsCA, player2PawnsCB);
+                            
                             if (collideIndex != -1) {
                                 out.println("Wpisano nieprawidłową pozycję, wprowadź ruch jeszcze raz");
                                 continue;
                             }
                             enemyPawnIndex = captureEnemyPawn(startX, startY, endX, endY, player1PawnsCA, player1PawnsCB);
+                            
                             if (enemyPawnIndex == -1) {
                                 out.println("Zbij pion przeciwnika lub zakończ ruch wprowadzając \"zk\"");
                                 continue;
@@ -407,6 +406,7 @@ public
                             break;
                         }
                         playerPawn = setPawnPosition(playerPawn, endX, endY);
+                        
                         if (endY == 7) {
                             playerPawn = setPawnIsQueen(playerPawn);
                         }
@@ -417,6 +417,7 @@ public
                         }
                         enemyPawn = getPawn(player2PawnsCA, player2PawnsCB, enemyPawnIndex);
                         enemyPawn = setPawnIsCaptured(enemyPawn);
+                        
                         if (enemyPawnIndex < 6) {
                             player2PawnsCA = setPawn(player2PawnsCA, enemyPawnIndex, enemyPawn);
                         } else {
@@ -427,16 +428,13 @@ public
                     }
                 }
             }
-
             if (allPawnsCaptured(player2PawnsCA, player2PawnsCB)) {
                 break;
             }
-
             printBoard(out, player1PawnsCA, player1PawnsCB, player2PawnsCA, player2PawnsCB);
 
             {
                 out.println("Ruch gracza2 - aby ruszyć pionem, najpierw wybierz jego pozycję");
-
                 long startX;
                 long startY;
                 long playerPawnIndex;
@@ -455,7 +453,6 @@ public
                     }
                     break;
                 }
-
                 out.println("Wprowadź miejsce docelowe piona");
                 long endX;
                 long endY;
@@ -471,7 +468,6 @@ public
                         out.println("Wpisano nieprawidłową pozycję, wprowadź ruch jeszcze raz");
                         continue;
                     }
-
                     enemyPawnIndex = captureEnemyPawn(startX, startY, endX, endY, player1PawnsCA, player1PawnsCB);
 
                     if (getPawnIsQueen(playerPawn)) {
@@ -494,19 +490,16 @@ public
                     }
                     break;
                 }
-
                 playerPawn = setPawnPosition(playerPawn, endX, endY);
 
                 if (endY == 0) {
                     playerPawn = setPawnIsQueen(playerPawn);
                 }
-
                 if (playerPawnIndex < 6) {
                     player2PawnsCA = setPawn(player2PawnsCA, playerPawnIndex, playerPawn);
                 } else {
                     player2PawnsCB = setPawn(player2PawnsCB, playerPawnIndex - 6, playerPawn);
                 }
-
                 if (enemyPawnIndex != -1) {
                     long enemyPawn = getPawn(player1PawnsCA, player1PawnsCB, enemyPawnIndex);
                     enemyPawn = setPawnIsCaptured(enemyPawn);
@@ -516,14 +509,12 @@ public
                     } else {
                         player1PawnsCB = setPawn(player1PawnsCB, enemyPawnIndex - 6, enemyPawn);
                     }
-
                     startX = endX;
                     startY = endY;
 
                     while (true) {
                         printBoard(out, player1PawnsCA, player1PawnsCB, player2PawnsCA, player2PawnsCB);
                         out.println("Wybierz następne bicie lub wprowadź \"zk\", aby zakończyć");
-
                         boolean done = false;
 
                         while (true) {
@@ -532,7 +523,6 @@ public
                                 done = true;
                                 break;
                             }
-
                             endX = parsePositionX(end);
                             endY = parsePositionY(end);
                             long collideIndex = findPawnIndex(endX, endY, player2PawnsCA, player2PawnsCB);
@@ -541,14 +531,12 @@ public
                                 out.println("Wpisano nieprawidłową pozycję, wprowadź ruch jeszcze raz");
                                 continue;
                             }
-
                             enemyPawnIndex = captureEnemyPawn(startX, startY, endX, endY, player1PawnsCA, player1PawnsCB);
 
                             if (enemyPawnIndex == -1) {
                                 out.println("Zbij pion przeciwnika lub zakończ ruch wprowadzając \"zk\"");
                                 continue;
                             }
-
                             if (getPawnIsQueen(playerPawn)) {
                                 if (Math.abs(endX - startX) != Math.abs(endY - startY)) {
                                     out.println("Wpisano nieprawidłową pozycję, wprowadź ruch jeszcze raz");
@@ -566,19 +554,16 @@ public
                         if (done) {
                             break;
                         }
-
                         playerPawn = setPawnPosition(playerPawn, endX, endY);
 
                         if (endY == 0) {
                             playerPawn = setPawnIsQueen(playerPawn);
                         }
-
                         if (playerPawnIndex < 6) {
                             player2PawnsCA = setPawn(player2PawnsCA, playerPawnIndex, playerPawn);
                         } else {
                             player2PawnsCB = setPawn(player2PawnsCB, playerPawnIndex - 6, playerPawn);
                         }
-
                         enemyPawn = getPawn(player1PawnsCA, player1PawnsCB, enemyPawnIndex);
                         enemyPawn = setPawnIsCaptured(enemyPawn);
 
@@ -587,13 +572,11 @@ public
                         } else {
                             player1PawnsCB = setPawn(player1PawnsCB, enemyPawnIndex - 6, enemyPawn);
                         }
-
                         startX = endX;
                         startY = endY;
                     }
                 }
             }
-
             if (allPawnsCaptured(player1PawnsCA, player1PawnsCB)) {
                 break;
             }
